@@ -17,7 +17,7 @@
  */
 class CFileHelper
 {
-	private static $self::$DIRECTORY_SEPARATOR = '/';
+	private static $DIRECTORY_SEPARATOR = '/';
 	
 	/**
 	 * Returns the extension name of a file path.
