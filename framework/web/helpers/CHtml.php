@@ -576,6 +576,20 @@ class CHtml
 	 */
 	public static function label($label,$for,$htmlOptions=array())
 	{
+
+		if(isset($htmlOptions['beforeInnerRequiredLabel'])){
+			$label=$htmlOptions['beforeInnerRequiredLabel'].$label;
+			unset($htmlOptions['beforeInnerRequiredLabel']);
+		}
+		
+		if(isset($htmlOptions['afterInnerRequiredLabel'])){
+			$label=$label.$htmlOptions['afterInnerRequiredLabel'];
+			unset($htmlOptions['afterInnerRequiredLabel']);
+		}
+		
+
+
+
 		if($for===false)
 			unset($htmlOptions['for']);
 		else
