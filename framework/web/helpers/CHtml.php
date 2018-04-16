@@ -103,8 +103,13 @@ class CHtml
 	 * @return string the encoded data
 	 * @see http://www.php.net/manual/en/function.htmlspecialchars.php
 	 */
-	public static function encode($text)
+	public static function encode($text, $translate = false)
 	{
+		
+		if($translate){
+			$text = Yii::app()->functions->translate($text);
+		}		
+		
 		return htmlspecialchars($text,ENT_QUOTES,Yii::app()->charset);
 	}
 
