@@ -17,6 +17,8 @@
  */
 class CFileHelper
 {
+	private static $self::$DIRECTORY_SEPARATOR = '/';
+	
 	/**
 	 * Returns the extension name of a file path.
 	 * For example, the path "path/to/something.php" would return "php".
@@ -40,7 +42,7 @@ class CFileHelper
 	 * <li>exclude: array, list of directory and file exclusions. Each exclusion can be either a name or a path.
 	 * If a file or directory name or path matches the exclusion, it will not be copied. For example, an exclusion of
 	 * '.svn' will exclude all files and directories whose name is '.svn'. And an exclusion of '/a/b' will exclude
-	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the DIRECTORY_SEPARATOR constant.
+	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the self::$DIRECTORY_SEPARATOR constant.
 	 * </li>
 	 * <li>level: integer, recursion depth, default=-1.
 	 * Level -1 means copying all directories and files under the directory;
@@ -79,15 +81,15 @@ class CFileHelper
 	{
 		if(!isset($options['traverseSymlinks']))
 			$options['traverseSymlinks']=false;
-		$items=glob($directory.DIRECTORY_SEPARATOR.'{,.}*',GLOB_MARK | GLOB_BRACE);
+		$items=glob($directory.self::$DIRECTORY_SEPARATOR.'{,.}*',GLOB_MARK | GLOB_BRACE);
 		foreach($items as $item)
 		{
 			if(basename($item)=='.' || basename($item)=='..')
 				continue;
-			if(substr($item,-1)==DIRECTORY_SEPARATOR)
+			if(substr($item,-1)==self::$DIRECTORY_SEPARATOR)
 			{
-				if(!$options['traverseSymlinks'] && is_link(rtrim($item,DIRECTORY_SEPARATOR)))
-					unlink(rtrim($item,DIRECTORY_SEPARATOR));
+				if(!$options['traverseSymlinks'] && is_link(rtrim($item,self::$DIRECTORY_SEPARATOR)))
+					unlink(rtrim($item,self::$DIRECTORY_SEPARATOR));
 				else
 					self::removeDirectory($item,$options);
 			}
@@ -112,7 +114,7 @@ class CFileHelper
 	 * <li>exclude: array, list of directory and file exclusions. Each exclusion can be either a name or a path.
 	 * If a file or directory name or path matches the exclusion, it will not be copied. For example, an exclusion of
 	 * '.svn' will exclude all files and directories whose name is '.svn'. And an exclusion of '/a/b' will exclude
-	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the DIRECTORY_SEPARATOR constant.
+	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the self::$DIRECTORY_SEPARATOR constant.
 	 * </li>
 	 * <li>level: integer, recursion depth, default=-1.
 	 * Level -1 means searching for all directories and files under the directory;
@@ -145,7 +147,7 @@ class CFileHelper
 	 * @param array $exclude list of directory and file exclusions. Each exclusion can be either a name or a path.
 	 * If a file or directory name or path matches the exclusion, it will not be copied. For example, an exclusion of
 	 * '.svn' will exclude all files and directories whose name is '.svn'. And an exclusion of '/a/b' will exclude
-	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the DIRECTORY_SEPARATOR constant.
+	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the self::$DIRECTORY_SEPARATOR constant.
 	 * @param integer $level recursion depth. It defaults to -1.
 	 * Level -1 means copying all directories and files under the directory;
 	 * Level 0 means copying only the files DIRECTLY under the directory;
@@ -167,18 +169,18 @@ class CFileHelper
 		{
 			if($file==='.' || $file==='..')
 				continue;
-			$path=$src.DIRECTORY_SEPARATOR.$file;
+			$path=$src.self::$DIRECTORY_SEPARATOR.$file;
 			$isFile=is_file($path);
 			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
 			{
 				if($isFile)
 				{
-					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
+					copy($path,$dst.self::$DIRECTORY_SEPARATOR.$file);
 					if(isset($options['newFileMode']))
-						@chmod($dst.DIRECTORY_SEPARATOR.$file,$options['newFileMode']);
+						@chmod($dst.self::$DIRECTORY_SEPARATOR.$file,$options['newFileMode']);
 				}
 				elseif($level)
-					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
+					self::copyDirectoryRecursive($path,$dst.self::$DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
 			}
 		}
 		closedir($folder);
@@ -193,7 +195,7 @@ class CFileHelper
 	 * @param array $exclude list of directory and file exclusions. Each exclusion can be either a name or a path.
 	 * If a file or directory name or path matches the exclusion, it will not be copied. For example, an exclusion of
 	 * '.svn' will exclude all files and directories whose name is '.svn'. And an exclusion of '/a/b' will exclude
-	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the DIRECTORY_SEPARATOR constant.
+	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the self::$DIRECTORY_SEPARATOR constant.
 	 * @param integer $level recursion depth. It defaults to -1.
 	 * Level -1 means searching for all directories and files under the directory;
 	 * Level 0 means searching for only the files DIRECTLY under the directory;
@@ -212,8 +214,8 @@ class CFileHelper
 		{
 			if($file==='.' || $file==='..')
 				continue;
-			$path=substr($base.DIRECTORY_SEPARATOR.$file,1);
-			$fullPath=$dir.DIRECTORY_SEPARATOR.$path;
+			$path=substr($base.self::$DIRECTORY_SEPARATOR.$file,1);
+			$fullPath=$dir.self::$DIRECTORY_SEPARATOR.$path;
 			$isFile=is_file($fullPath);
 			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
 			{
@@ -236,7 +238,7 @@ class CFileHelper
 	 * @param array $exclude list of directory and file exclusions. Each exclusion can be either a name or a path.
 	 * If a file or directory name or path matches the exclusion, false will be returned. For example, an exclusion of
 	 * '.svn' will return false for all files and directories whose name is '.svn'. And an exclusion of '/a/b' will return false for
-	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the DIRECTORY_SEPARATOR constant.
+	 * file or directory '$src/a/b'. Note, that '/' should be used as separator regardless of the value of the self::$DIRECTORY_SEPARATOR constant.
 	 * @return boolean whether the file or directory is valid
 	 */
 	protected static function validatePath($base,$file,$isFile,$fileTypes,$exclude)
