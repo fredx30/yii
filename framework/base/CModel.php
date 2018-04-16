@@ -29,6 +29,9 @@
 abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
 {
 	private $_errors=array();	// attribute name => array of errors
+
+	private $_successMsgs=array();	// attribute name => array of successMsgs
+	
 	private $_validators;  		// validators
 	private $_scenario='';  	// scenario
 
@@ -415,6 +418,31 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		else
 			unset($this->_errors[$attribute]);
 	}
+
+
+
+
+	public function getSuccessMsgs($attribute=null)
+	{
+		if($attribute===null)
+			return $this->_successMsgs;
+		else
+			return isset($this->_successMsgs[$attribute]) ? $this->_successMsgs[$attribute] : array();
+	}
+
+	/**
+	 * Adds a new error to the specified attribute.
+	 * @param string $attribute attribute name
+	 * @param string $error new error message
+	 */
+	public function addSuccessMsg($attribute,$error)
+	{
+		$this->_successMsgs[$attribute][]=$error;
+	}
+
+
+
+
 
 	/**
 	 * Generates a user friendly attribute label.
