@@ -133,6 +133,12 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		return array();
 	}
 
+	// added by MANI 2018-08-22
+	public function attributeHints()
+	{
+		return array();
+	}
+
 	/**
 	 * Performs the validation.
 	 *

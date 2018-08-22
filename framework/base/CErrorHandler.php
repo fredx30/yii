@@ -93,6 +93,7 @@ class CErrorHandler extends CApplicationComponent
 	 */
 	public function handle($event)
 	{
+
 		// set event as handled to prevent it from being handled by other event handlers
 		$event->handled=true;
 
@@ -364,9 +365,12 @@ class CErrorHandler extends CApplicationComponent
 	 */
 	protected function renderError()
 	{
-		if($this->errorAction!==null)
+
+		if(!YII_DEBUG && $this->errorAction!==null){
+
+
 			Yii::app()->runController($this->errorAction);
-		else
+		}else
 		{
 			$data=$this->getError();
 			if($this->isAjaxRequest())
