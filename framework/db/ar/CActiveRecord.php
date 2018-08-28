@@ -50,6 +50,10 @@ abstract class CActiveRecord extends CModel
 	 * By default, this is the 'db' application component.
 	 * @see getDbConnection
 	 */
+	 
+	 
+	public $importFromIntegrationTransactionSourcePartId = NULL; 
+	 
 	public static $db;
 
 	private static $_models=array();			// class name => model
