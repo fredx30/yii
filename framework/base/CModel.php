@@ -32,6 +32,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	private $_successMsgs=array();	// attribute name => array of successMsgs
 	
+	private $_warningMsgs=array();	// attribute name => array of successMsgs	
+	
 	private $_validators;  		// validators
 	private $_scenario='';  	// scenario
 
@@ -435,15 +437,23 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		else
 			return isset($this->_successMsgs[$attribute]) ? $this->_successMsgs[$attribute] : array();
 	}
-
-	/**
-	 * Adds a new error to the specified attribute.
-	 * @param string $attribute attribute name
-	 * @param string $error new error message
-	 */
 	public function addSuccessMsg($attribute,$error)
 	{
 		$this->_successMsgs[$attribute][]=$error;
+	}
+
+
+	public function getWarningMsgs($attribute=null)
+	{
+		if($attribute===null){
+			return $this->_warningMsgs;
+		} else {
+			return isset($this->_warningMsgs[$attribute]) ? $this->_warningMsgs[$attribute] : array();
+		}
+	}
+	public function addWarningMsgs($attribute,$error)
+	{
+		$this->_warningMsgs[$attribute][]=$error;
 	}
 
 
