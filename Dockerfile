@@ -1,7 +1,3 @@
-FROM openbridge/ob_php-fpm
+FROM php:7.1-apache
 
-RUN apk update && apk add unzip zip
-
-WORKDIR /app
-
-COPY . /yii9
+COPY . /var/www/html/yii9
