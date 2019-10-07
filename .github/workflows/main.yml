@@ -1,21 +1,22 @@
+---
 name: Publish Docker
 on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Login to ECR
-      id: ecr
-      uses: elgohr/ecr-login-action@0.0.3
-      with:
-        access_key: ${{ secrets.AWS_ACCESS_KEY }}
-        secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        region: eu-north-1
-    - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: 330745283968.dkr.ecr.eu-north-1.amazonaws.com/yii
-        username: ${{ steps.ecr.outputs.username }}
-        password: ${{ steps.ecr.outputs.password }}
-        registry: ${{ steps.ecr.outputs.registry }}
+      - uses: actions/checkout@master
+      - name: Login to ECR
+        id: ecr
+        uses: docker://effata/ecr-login-action:latest
+        with:
+          access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          region: eu-north-1
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: 330745283968.dkr.ecr.eu-north-1.amazonaws.com/yii
+          username: ${{ steps.ecr.outputs.username }}
+          password: ${{ steps.ecr.outputs.password }}
+          registry: ${{ steps.ecr.outputs.registry }}
