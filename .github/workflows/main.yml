@@ -14,7 +14,7 @@ jobs:
           secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           region: eu-north-1
       - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
+        uses: docker://effata/publish-docker-github-action:latest
         with:
           name: 330745283968.dkr.ecr.eu-north-1.amazonaws.com/yii
           username: ${{ steps.ecr.outputs.username }}
