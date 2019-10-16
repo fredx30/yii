@@ -1,3 +1,3 @@
 FROM php:7.1-apache
 
-COPY . /var/www/html/yii9
+COPY . /var/www/yii9
