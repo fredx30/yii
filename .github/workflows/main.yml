@@ -2,7 +2,7 @@
 name: Publish Docker
 on: [push]
 jobs:
-  build:
+  publish-docker-container:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
