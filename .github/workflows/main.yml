@@ -21,3 +21,4 @@ jobs:
           password: ${{ steps.ecr.outputs.password }}
           registry: ${{ steps.ecr.outputs.registry }}
           snapshot: true
+          tag_names: true
