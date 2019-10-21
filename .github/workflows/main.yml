@@ -16,7 +16,7 @@ jobs:
       - name: Publish to Registry
         uses: docker://effata/publish-docker-github-action:latest
         with:
-          name: 330745283968.dkr.ecr.eu-north-1.amazonaws.com/yii
+          name: yii
           username: ${{ steps.ecr.outputs.username }}
           password: ${{ steps.ecr.outputs.password }}
           registry: ${{ steps.ecr.outputs.registry }}
