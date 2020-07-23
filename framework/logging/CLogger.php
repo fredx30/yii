@@ -93,18 +93,6 @@ class CLogger extends CComponent
 	 */
 	public function log($message,$level='info',$category='application')
 	{
-		
-
-		if (!in_array($level, array(self::LEVEL_TRACE,self::LEVEL_PROFILE)) &&  extension_loaded('newrelic')) {
-						
-			if (strpos($message, 'isslyckades att tilldela det ej s') !== false) {
-			
-			}else{
-				newrelic_notice_error(strtoupper ($level).'_'.$category.'_'.$message);
-			}
-
-		}		
-		
 		$this->_logs[]=array($message,$level,$category,microtime(true));
 		$this->_logCount++;
 		if($this->autoFlush>0 && $this->_logCount>=$this->autoFlush && !$this->_processing)
